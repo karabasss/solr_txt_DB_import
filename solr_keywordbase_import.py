@@ -2,26 +2,28 @@ import urllib2
 import solr
 import hashlib
 import time
+import os
 ###############
-conn = solr.SolrConnection('http://hadoop.co.spb.ru:8983/solr/main_shard1_replica1')
-base = "English44Keywords.txt"
+conn = solr.SolrConnection('http://hadoop.co.spb.ru:8983/solr/keywords_only_shard1_replica1')
+#base = "English44Keywords.txt"  
 start_time = time.time()
+path = '/z/backup_JBOD/pasthukov/keywords_only_to_solr'
+ids = 0
+count = 0
 ###############
 
 ##generates uid from keyword string##
-def gen_ID (st):
+def gen_ID (st):   
     uid = int(hashlib.md5(st).hexdigest(), 16)
     #uid = str(int(hashlib.md5(st).hexdigest(), 16))[:16] ### 16 char ID
     return uid
 
-def mainWork():
-    with open(base) as f:
+def mainWork(keyw_file):
+    with open(keyw_file) as f:
         dlist=[]
-        ids = 0
-        count = 0
         for line in f:
             if not line.strip():                       ## skip blank lines
-                continue
+                continue                     
             line = line.rstrip('\r\n')            ## delete Windows end-of-line delimiter
             doc = {}
             #line = line.split()
@@ -42,9 +44,13 @@ def mainWork():
     ###remaining add&commit(less then 100 000)
     conn.add_many(dlist)
     conn.commit()
-    print "Last ID was - " + str(ids)
+    print "Base " + str(keyw_file) + "uploaded to Solr successfully!" 
+    print "Last ID for base was - " + str(ids)
 
-
-mainWork()
+def baseLoop ():
+    for filename in os.listdir(path):
+        mainWork(filename)
+    
+baseLoop()
 print "Done!"
 print "Elapsed time: " + "--- %s seconds ---" % round(time.time() - start_time)
