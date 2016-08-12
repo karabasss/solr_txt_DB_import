@@ -3,7 +3,7 @@ import urllib2
 import solr
 import hashlib
 import time
-import os
+import os, re
 ###############
 conn = solr.SolrConnection('http://hadoop.co.spb.ru:8983/solr/keywords_only_shard1_replica1')
 #base = "English44Keywords.txt"  
@@ -25,9 +25,10 @@ def mainWork(keyw_file):
     with open(keyw_file) as f:
         dlist=[]
         for line in f:
-            if not line.strip():                       ## skip blank lines
+            line = re.sub(r'[^\x00-\x7F]+',' ', line)   ##skip non-ASCII characters
+            if not line.strip():                        ## skip blank lines
                 continue                     
-            line = line.rstrip('\r\n')            ## delete Windows end-of-line delimiter
+            line = line.rstrip('\r\n')                  ## delete Windows end-of-line delimiter
             doc = {}
             #line = line.split()
             ids +=1
