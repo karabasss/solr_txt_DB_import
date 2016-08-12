@@ -48,7 +48,8 @@ def mainWork(keyw_file):
     print "Last ID for base was - " + str(ids)
 
 def baseLoop ():
-    for filename in os.listdir(path):
+    os.chdir(path)
+    for filename in os.listdir(os.getcwd()):
         mainWork(filename)
     
 baseLoop()
