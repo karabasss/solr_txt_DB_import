@@ -19,6 +19,8 @@ def gen_ID (st):
     return uid
 
 def mainWork(keyw_file):
+    global ids
+    global count
     with open(keyw_file) as f:
         dlist=[]
         for line in f:
