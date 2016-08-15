@@ -23,6 +23,7 @@ def mainWork(keyw_file):
     global ids
     global count
     with open(keyw_file) as f:
+        print "Current DB is: " + keyw_file
         dlist=[]
         for line in f:
             line = re.sub(r'[^\x00-\x7F]+',' ', line)   ##skip non-ASCII characters
