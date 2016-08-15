@@ -48,7 +48,7 @@ def mainWork(keyw_file):
     ###remaining add&commit(less then 100 000)
     conn.add_many(dlist)
     conn.commit()
-    print "Base " + str(keyw_file) + "uploaded to Solr successfully!" 
+    print "Base " + str(keyw_file) + " uploaded to Solr successfully!" 
     print "Last ID for base was - " + str(ids)
 
 def baseLoop ():
