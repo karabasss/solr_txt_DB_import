@@ -48,9 +48,10 @@ def mainWork(keyw_file):
                 count = 0
                 dlist=[] # dropping list
                 if tenKcount == 10:
-                        tenKcount = 0
-                        print "Current ID added to Solr: " + str(ids)
-                        print "--- %s seconds ---" % round(time.time() - start_time)
+                    tenKcount = 0
+                    print
+                    print "Current ID added to Solr: " + str(ids)
+                    print "--- %s seconds ---" % round(time.time() - start_time)
     ###remaining add&commit(less then 100 000)
     conn.add_many(dlist)
     conn.commit()
